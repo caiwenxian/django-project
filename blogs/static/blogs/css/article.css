@@ -1,0 +1,14 @@
+ .article-tag {
+            background-color: #ba8f6c;
+            color: white;
+            padding: 2px;
+            font-size: 14px;
+            border-radius: 10%;
+        }
+.article-expand-content {
+    float: right;
+    background-color: #6e7071;
+    color: white;
+    font-size: 14px;
+    padding: 4px;
+}

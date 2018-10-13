@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" style="height: 100%">
 <head>
@@ -34,10 +35,13 @@
         .cursor-pointer {
             cursor: pointer;
         }
+        .user-info a {
+            text-decoration: none;
+            color: #999;
+        }
     </style>
 </head>
-<script src="/static/js/vue.min.js"></script>
-<script src="/static/js/jquery.min.js"></script>
+
 <body style="height: 100%; margin: 0px;">
 <div class="main">
     <div class="main-left">
@@ -45,25 +49,43 @@
         <div style="height: 10%; position: relative; margin-top: -50px; margin-left: 100px;">
             <img src="/static/blogs/images/pic-1001.jpg" style="height: 100px; border-radius: 50%;">
         </div>
-        <div style="text-align: center">
+        <div class="user-info" style="text-align: center">
             <p class="hover-opacity cursor-pointer" style="font-family: fantasy; margin-top: 55px">Mr.miss</p>
             <p style="margin-top: 55px; color: #999">言念君子，温其如玉</p>
-            <div style="margin-top: 70px; color: #999">
-                <p class="hover-opacity cursor-pointer">主页</p>
+            <div class="model-list" style="margin-top: 70px; color: #999">
+                <p class="hover-opacity cursor-pointer" onclick="goModel('index')">主页</p>
                 {% if user.is_authenticated %}
-                <p class="hover-opacity cursor-pointer">管理</p>
+                    <p class="hover-opacity cursor-pointer manage" onclick="goModel('publish')">发布</p>
+                    <p class="hover-opacity cursor-pointer manage" onclick="goModel('manage')">管理</p>
+{#                    <span class="cursor-pointer none" style="font-size: 14px;">发布</span>#}
+{#                    <span class="cursor-pointer none" style="font-size: 14px;">管理</span>#}
                 {% endif %}
-                <p class="hover-opacity cursor-pointer">关于</p>
+                <p class="hover-opacity cursor-pointer" onclick="goModel('about')">关于</p>
             </div>
         </div>
     </div>
     <div class="main-right">
-        <iframe class="frame" src="/blogs/article" ></iframe>
-        <iframe class="frame none" src="/blogs/photo"></iframe>
+        <iframe id="frame-article" class="frame" src="/blogs/article" ></iframe>
+{#        <iframe class="frame none" src="/blogs/photo"></iframe>#}
     </div>
 </div>
 </body>
+<script src="/static/blogs/js/vue.min.js"></script>
+<script src="/static/blogs/js/jquery.min.js"></script>
 <script>
+    $(function () {
+        $('.manage').click(function () {
+            $('.manage').children().addClass('block').removeClass('none')
+        })
+
+        $('.model-list p').click()
+    })
+
+    function goModel(type) {
+        if(type == 'index') {
+            $('#frame-article').attr('src', '/blogs/article')
+        }
+    }
 
 </script>
 </html>

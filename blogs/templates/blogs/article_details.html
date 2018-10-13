@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 99%;">
+<head>
+    <meta charset="UTF-8">
+    <title>文章内容</title>
+    <link rel="stylesheet" href="/static/blogs/css/common.css">
+    <link rel="stylesheet" href="/static/blogs/css/article.css">
+    <style>
+        img {
+            height: auto !important;
+            max-width: 100% !important;
+        }
+</style>
+</head>
+<body id="vm" style="padding: 30px; ">
+<div class="article-list" style="background-color: white; height: 100%; margin-bottom: 30px;">
+    <div class="inner-header">
+        <div style="padding: 30px">
+            <span style="font-size: 24px; color: #656363;">{{contacts.data.title}}</span>
+            <span style="float: right; margin-right: 20px; color: #999">{{contacts.data.create_date}}</span>
+
+        </div>
+    </div>
+    <div class="inner-body" style="padding: 30px">
+        {% autoescape off %}
+        {{contacts.data.content}}
+        {% endautoescape %}
+        <div>
+            <hr style="margin-top: 30px;">
+            <br>
+            <span class="cursor-pointer hover-opacity article-tag" style="">叙事</span>
+        </div>
+    </div>
+    <div class="inner-footer">
+
+    </div>
+</div>
+
+</body>
+<script src="/static/blogs/js/vue.min.js"></script>
+<script src="/static/blogs/js/jquery.min.js"></script>
+<script>
+</script>
+</html>
