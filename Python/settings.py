@@ -1,3 +1,6 @@
+#!/usr/bin/python
+#coding:utf-8
+
 """
 Django settings for Python project.
 
@@ -37,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+ckeditor
     'polls.apps.PollsConfig',
     'blogs.apps.BlogsConfig',
     'ckeditor',
