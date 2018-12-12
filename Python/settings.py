@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-ckeditor
     'polls.apps.PollsConfig',
     'blogs.apps.BlogsConfig',
     'ckeditor',
