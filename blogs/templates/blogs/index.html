@@ -53,7 +53,7 @@
             <p class="hover-opacity cursor-pointer" style="font-family: fantasy; margin-top: 55px">Mr.miss</p>
             <p style="margin-top: 55px; color: #999">言念君子，温其如玉</p>
             <div class="model-list" style="margin-top: 70px; color: #999">
-                <p class="hover-opacity cursor-pointer" onclick="goModel('index')">主页</p>
+                <p class="hover-opacity cursor-pointer" onclick="goModel('index', true)">主页</p>
                 {% if user.is_authenticated %}
                     <p class="hover-opacity cursor-pointer manage" onclick="goModel('publish')">发布</p>
                     <p class="hover-opacity cursor-pointer manage" onclick="goModel('manage')">管理</p>
@@ -65,7 +65,7 @@
         </div>
     </div>
     <div class="main-right">
-        <iframe id="frame-article" class="frame" src="/blogs/article" ></iframe>
+        <iframe id="frame-article" class="frame" src="" ></iframe>
 {#        <iframe class="frame none" src="/blogs/photo"></iframe>#}
     </div>
 </div>
@@ -78,13 +78,48 @@
             $('.manage').children().addClass('block').removeClass('none')
         })
 
-        $('.model-list p').click()
+        goModel('index', false)
     })
 
-    function goModel(type) {
+    function goModel(type, flag) {
         if(type == 'index') {
-            $('#frame-article').attr('src', '/blogs/article')
+            if (flag) {
+                $('#frame-article').attr('src', '/blogs/article')
+                var u = parent.location.href
+                var end = u.indexOf("#");
+                if (end != -1) {
+                   parent.location.href = u.substring(0, end);
+                }
+
+                return
+            }
+            var page = 1
+            var u = parent.location.href
+            var end = u.indexOf("#");
+            if (end != -1) {
+               page = u.substring(end + 1, u.length);
+            }
+            // var cookie = document.cookie
+            // if(cookie != '') {
+            //     page = getCookie('page')
+            // }
+            $('#frame-article').attr('src', '/blogs/article?page=' + page)
         }
+    }
+
+    //获取cookie
+    function getCookie(name) {
+        if (document.cookie.length>0) {
+            start=document.cookie.indexOf(name + "=")//返回某指定值在字符串中首次出现的位置。
+            if (start!=-1) {
+                start = start + name.length+1;
+                end=document.cookie.indexOf(";",start)//返回';'在字符串中首次出现的位置。
+                if (end ==-1) {
+                    end = document.cookie.length;
+                    return document.cookie.substring(start,end);
+                }
+            }
+        }return ""
     }
 
 </script>

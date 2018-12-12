@@ -27,6 +27,21 @@
              text-decoration: underline;
         }
 
+        .pagination .page {
+            padding: 5px 10px 5px 10px;
+            background-color: #75c810;
+            border-radius: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+        .pagination .current {
+            padding: 5px 10px 5px 10px;
+            background-color: #3a6209;
+            border-radius: 5px;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
 </style>
 </head>
 <body id="vm" style="padding: 30px; ">
@@ -48,7 +63,7 @@
             <hr style="margin-top: 30px;">
             <br>
             <span class="cursor-pointer hover-opacity article-tag" style="">叙事</span>
-            <span class="cursor-pointer hover-opacity article-expand-content" style=""><a style="text-decoration: none" href="/blogs/article/{{article.id}}">展开全文>></a></span>
+            <span class="cursor-pointer hover-opacity article-expand-content" style=""><a style="text-decoration: none; color: white" href="/blogs/article/{{article.id}}">展开全文>></a></span>
         </div>
     </div>
     <div class="inner-footer">
@@ -62,17 +77,35 @@
 <div class="pagination" style="text-align: center;<!-- margin-top: 30px;-->">
     <span class="step-links">
         {% if contacts.has_previous %}
-            <a href="?page=1" style="text-decoration: none;">&laquo; First</a>
-            <a href="?page={{ contacts.previous_page_number }}" style="text-decoration: none;">Prev</a>
+            <a href="?page=1" style="text-decoration: none; font-size: large;">首页</a>
+            <a href="?page={{ contacts.previous_page_number }}" style="text-decoration: none; font-size: large;" onclick="goPrev('{{ contacts.number }}')">前一页</a>
         {% endif %}
 
-        <span class="current" style="padding: 20px">
-            {{ contacts.number }}
-        </span>
+        {% for page in contacts.numberStr %}
+            {% if page == contacts.number %}
+                <a href="?page={{ page }}" onclick="goPage('{{ page }}')">
+                <span class="current">
+                {{ page }}
+                </span>
+                </a>
+            {% endif %}
+            {% if page != contacts.number %}
+                {% if page == '...' %}
+                    {{ page }}
+                {% endif %}
+                {% if page != '...' %}
+                    <a href="?page={{ page }}"  onclick="goPage('{{ page }}')">
+                    <span class="page">
+                    {{ page }}
+                    </span>
+                    </a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
 
         {% if contacts.has_next %}
-            <a href="?page={{ contacts.next_page_number }}" style="text-decoration: none;">Next</a>
-            <a href="?page={{ contacts.paginator.num_pages }}" style="text-decoration: none;">Last &raquo;</a>
+            <a href="?page={{ contacts.next_page_number }}" style="text-decoration: none; font-size: large;" onclick="goNext('{{ contacts.number }}')">下一页</a>
+            <a href="?page={{ contacts.paginator.num_pages }}" style="text-decoration: none; font-size: large;">尾页</a>
         {% endif %}
     </span>
 </div>
@@ -82,8 +115,43 @@
 <script>
     $(function () {
         // initVM()
+        console.log('init')
+        document.cookie="page={{contacts.number}};path=/"
     })
     var contacts = ('{{ contacts }}')
 
+    function goPrev(page) {
+        console.log(parent.location.href)
+        var u = parent.location.href
+        var end = u.indexOf("#");
+        if (end != -1) {
+           u = u.substring(0,end);
+        }
+        page = '{{contacts.number}}'
+        page = Number(page) - 1
+        parent.location.href = u + "#" + page;
+        // document.cookie="page=" + page + ";path=/"
+
+    }
+    function goNext(page) {
+        var u = parent.location.href
+        var end = u.indexOf("#");
+        if (end != -1) {
+           u = u.substring(0,end);
+        }
+        page = '{{contacts.number}}'
+        page = Number(page) + 1
+        parent.location.href = u + "#" + page;
+        // document.cookie="page=" + page + ";path=/"
+    }
+    function goPage(page) {
+        var u = parent.location.href
+        var end = u.indexOf("#");
+        if (end != -1) {
+           u = u.substring(0,end);
+        }
+        parent.location.href = u + "#" + page;
+        // document.cookie="page=" + page + ";path=/"
+    }
 </script>
 </html>

@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .none {
+        display: none;
+    }
+    .block {
+        display: block;
+    }
+</style>
+<script src="/static/blogs/js/vue.min.js"></script>
+<script src="/static/blogs/js/jquery.min.js"></script>
+<div>
+    <table>
+        <tr>
+            <td>父级数据11<span onclick="showAndHide(this)">展开</span></td>
+            <td>父级数据12</td>
+            <td>父级数据13</td>
+            <td>父级数据14</td>
+            <td>父级数据15</td>
+        </tr>
+        <tr class="none" style="color: gray;">
+            <td colspan="5">
+                <table>
+                    <tr>
+                        <td>子级数据11</td>
+                        <td>子级数据12</td>
+                        <td>子级数据13</td>
+                        <td>子级数据14</td>
+                        <td>子级数据15</td>
+                    </tr>
+                    <tr>
+                        <td>子级数据21</td>
+                        <td>子级数据22</td>
+                        <td>子级数据23</td>
+                        <td>子级数据24</td>
+                        <td>子级数据25</td>
+                    </tr>
+                    <tr>
+                        <td>子级数据31</td>
+                        <td>子级数据32</td>
+                        <td>子级数据33</td>
+                        <td>子级数据34</td>
+                        <td>子级数据35</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>父级数据21</td>
+            <td>父级数据22</td>
+            <td>父级数据23</td>
+            <td>父级数据24</td>
+            <td>父级数据25</td>
+        </tr>
+        <tr>
+            <td>父级数据31<span onclick="showAndHide(this)">展开</span></td>
+            <td>父级数据32</td>
+            <td>父级数据33</td>
+            <td>父级数据34</td>
+            <td>父级数据35</td>
+        </tr>
+        <tr class="none" style="color: gray;">
+            <td colspan="5">
+                <table>
+                    <tr>
+                        <td>子级数据11</td>
+                        <td>子级数据12</td>
+                        <td>子级数据13</td>
+                        <td>子级数据14</td>
+                        <td>子级数据15</td>
+                    </tr>
+                    <tr>
+                        <td>子级数据21</td>
+                        <td>子级数据22</td>
+                        <td>子级数据23</td>
+                        <td>子级数据24</td>
+                        <td>子级数据25</td>
+                    </tr>
+                    <tr>
+                        <td>子级数据31</td>
+                        <td>子级数据32</td>
+                        <td>子级数据33</td>
+                        <td>子级数据34</td>
+                        <td>子级数据35</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>父级数据41</td>
+            <td>父级数据42</td>
+            <td>父级数据43</td>
+            <td>父级数据44</td>
+            <td>父级数据45</td>
+        </tr>
+    </table>
+</div>
+<script>
+    function showAndHide($this) {
+        var index = $($this).parent().parent().next();
+        if (index.hasClass('none')) {
+            index.removeClass('none');
+            index.addClass('contents');
+            $($this).text('隐藏');
+        } else {
+            index.removeClass('contents');
+            index.addClass('none');
+            $($this).text('显示');
+        }
+    }
+</script>
