@@ -17,6 +17,11 @@ import logging; logging.basicConfig(level=logging.INFO)
 import json
 from .models import *
 from .model.result import Result
+from bottle import *
+from .forms import UploadFileForm
+from django.http import HttpResponseRedirect
+from django.shortcuts import render_to_response
+import uuid
 
 
 # Create your views here.
@@ -72,6 +77,12 @@ def article_list_page(request):
         numberStr = numberStr[contacts.number - 1:contacts.number + 1]
         numberStr.append('...')
         numberStr.append(contacts.paginator.num_pages)
+    elif len(numberStr) > 3 and (contacts.number > 2):
+        numberStr = numberStr[0:1]
+        numberStr.append("...")
+        numberStr.append(contacts.number - 1)
+        numberStr.append(contacts.number)
+        numberStr.append(contacts.number + 1)
     else:
         numberStr = numberStr[contacts.paginator.num_pages - 3:contacts.paginator.num_pages]
     contacts.numberStr = numberStr
@@ -87,6 +98,30 @@ def article_details_page(request, article_id):
     # contacts = paginator.get_page(page)
     result = Result(code=0, msg='success', data=article)
     return render(request, 'blogs/article_details.html', {'contacts': result})
+
+#上传头像
+def upload_user_photo(request):
+    base_path = os.path.dirname(os.path.realpath(__file__))  # 获取脚本路径
+    upload_path = os.path.join(base_path, 'upload')  # 上传文件目录
+    if not os.path.exists(upload_path):
+        os.makedirs(upload_path)
+
+    if request.method == 'POST':
+        file_obj = request.FILES.get("up_file")
+        print('开始上传文件：' + file_obj.name)
+        arr = file_obj.name.split('.')
+        name = arr[len(arr) - 1]
+        ramdom_id = str(int(time.time()))
+        file_name = ramdom_id + '.' + name
+        f1 = open(upload_path + '/' + file_name, "wb")
+        for i in file_obj.chunks():
+            f1.write(i)
+        f1.close()
+    else:
+        form = UploadFileForm()
+    return '上传文件成功'
+
+
 
 #test
 def test(request):

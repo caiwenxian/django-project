@@ -1,0 +1,3 @@
+alter table APPR_HANDLE_INFO add CONTROL_SEQ VARCHAR2(50) ;
+comment on column APPR_HANDLE_INFO.CONTROL_SEQ is '办件流水号';
+

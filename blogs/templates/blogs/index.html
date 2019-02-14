@@ -48,6 +48,22 @@
         <div style="height: 19%; background-color: #4d4d4d"></div>
         <div style="height: 10%; position: relative; margin-top: -50px; margin-left: 100px;">
             <img src="/static/blogs/images/pic-1001.jpg" style="height: 100px; border-radius: 50%;">
+            {% comment %}<form action="/blogs/upload/photo" method="post" enctype="multipart/form-data">
+                <br />{% csrf_token %}<br />
+                <input type='text' name='textfield' id='textfield' class='txt' />
+                <input type='button' class='btn' value='浏览...' />
+                <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
+                <input type="submit" name="submit" class="btn" value="上传" onclick=""/>
+            </form>{% endcomment %}
+            <form method="post" enctype="multipart/form-data" action="/blogs/upload/photo">
+                {% comment %}<div class="fieldWrapper">
+                    {{ field.errors }}
+                    {{ field.label_tag }} {{ field }}
+                </div>{% endcomment %}
+                <br />{% csrf_token %}<br />
+                <p><input type="file" name="up_file"></p>
+                <input type="submit">
+            </form>
         </div>
         <div class="user-info" style="text-align: center">
             <p class="hover-opacity cursor-pointer" style="font-family: fantasy; margin-top: 55px">Mr.miss</p>

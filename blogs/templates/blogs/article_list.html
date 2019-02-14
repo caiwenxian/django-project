@@ -23,7 +23,8 @@
         }
         a:hover {
              font-size: 14px;
-             color: #999999;
+             {#color: #999999;#}
+             opacity: 0.5;
              text-decoration: underline;
         }
 
@@ -76,10 +77,10 @@
 
 <div class="pagination" style="text-align: center;<!-- margin-top: 30px;-->">
     <span class="step-links">
-        {% if contacts.has_previous %}
-            <a href="?page=1" style="text-decoration: none; font-size: large;">首页</a>
-            <a href="?page={{ contacts.previous_page_number }}" style="text-decoration: none; font-size: large;" onclick="goPrev('{{ contacts.number }}')">前一页</a>
-        {% endif %}
+{#        {% if contacts.has_previous %}#}
+{#            <a href="?page=1" style="text-decoration: none; font-size: large;">首页</a>#}
+{#            <a href="?page={{ contacts.previous_page_number }}" style="text-decoration: none; font-size: large;" onclick="goPrev('{{ contacts.number }}')">前一页</a>#}
+{#        {% endif %}#}
 
         {% for page in contacts.numberStr %}
             {% if page == contacts.number %}
@@ -103,10 +104,10 @@
             {% endif %}
         {% endfor %}
 
-        {% if contacts.has_next %}
-            <a href="?page={{ contacts.next_page_number }}" style="text-decoration: none; font-size: large;" onclick="goNext('{{ contacts.number }}')">下一页</a>
-            <a href="?page={{ contacts.paginator.num_pages }}" style="text-decoration: none; font-size: large;">尾页</a>
-        {% endif %}
+{#        {% if contacts.has_next %}#}
+{#            <a href="?page={{ contacts.next_page_number }}" style="text-decoration: none; font-size: large;" onclick="goNext('{{ contacts.number }}')">下一页</a>#}
+{#            <a href="?page={{ contacts.paginator.num_pages }}" style="text-decoration: none; font-size: large;">尾页</a>#}
+{#        {% endif %}#}
     </span>
 </div>
 </body>

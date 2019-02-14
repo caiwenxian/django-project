@@ -11,6 +11,7 @@ urlpatterns = [
     path('article/', views.article_list_page, name='article_list_page'),
     path('article/<str:article_id>/', views.article_details_page, name='article_details_page'),
     path('test/', views.test, name='test'),
+    path('upload/photo', views.upload_user_photo, name='upload_user_photo'),
     # path('<int:pk>/', views.DetailsView.as_view()   , name='details'),
     # path('<int:pk>/results/', views.ResultsView.as_view(), name='results'),
     # path('<int:question_id>/vote/', views.vote, name='vote'),
