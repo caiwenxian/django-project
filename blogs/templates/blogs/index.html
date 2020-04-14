@@ -47,23 +47,18 @@
     <div class="main-left">
         <div style="height: 19%; background-color: #4d4d4d"></div>
         <div style="height: 10%; position: relative; margin-top: -50px; margin-left: 100px;">
-            <img src="/static/blogs/images/pic-1001.jpg" style="height: 100px; border-radius: 50%;">
-            {% comment %}<form action="/blogs/upload/photo" method="post" enctype="multipart/form-data">
+            <input type="hidden" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
+            <img src="" id="user_photo" style="height: 100px; width: 100px; border-radius: 50%; display: none"
+                 onclick="document.getElementById('up_file').click()">
+            {% comment %}表单形式{% endcomment %}
+            {% comment %}<form method="post" enctype="multipart/form-data" action="/blogs/upload/photo" style="display: none">
                 <br />{% csrf_token %}<br />
-                <input type='text' name='textfield' id='textfield' class='txt' />
-                <input type='button' class='btn' value='浏览...' />
-                <input type="file" name="fileField" class="file" id="fileField" size="28" onchange="document.getElementById('textfield').value=this.value" />
-                <input type="submit" name="submit" class="btn" value="上传" onclick=""/>
+                <p><input type="file" id="up_file" name="up_file" onchange="document.getElementById('submit-btn').click()"></p>
+                <input type="submit" id="submit-btn">
             </form>{% endcomment %}
-            <form method="post" enctype="multipart/form-data" action="/blogs/upload/photo">
-                {% comment %}<div class="fieldWrapper">
-                    {{ field.errors }}
-                    {{ field.label_tag }} {{ field }}
-                </div>{% endcomment %}
-                <br />{% csrf_token %}<br />
-                <p><input type="file" name="up_file"></p>
-                <input type="submit">
-            </form>
+            <div style="display: none">
+                <p><input type="file" id="up_file" name="up_file" onchange="upload_img()"></p>
+            </div>
         </div>
         <div class="user-info" style="text-align: center">
             <p class="hover-opacity cursor-pointer" style="font-family: fantasy; margin-top: 55px">Mr.miss</p>
@@ -93,8 +88,10 @@
         $('.manage').click(function () {
             $('.manage').children().addClass('block').removeClass('none')
         })
-
+        get_user_photo()
         goModel('index', false)
+
+
     })
 
     function goModel(type, flag) {
@@ -136,6 +133,84 @@
                 }
             }
         }return ""
+    }
+
+    //图片
+    function upload_img() {
+        var formData = new FormData();
+        {#var name = $("input").val();#}
+        formData.append("up_file",$("#up_file")[0].files[0]);
+        {#formData.append("name",name);#}
+        formData.append("csrfmiddlewaretoken", $('#csrfmiddlewaretoken').val())
+        var url = '/blogs/upload_img/';
+        $.ajax({
+            url : url,
+            type : 'POST',
+            data : formData,
+            processData : false,
+            contentType : false,
+            beforeSend:function(){
+                console.log("正在进行，请稍候");
+            },
+            success : function(responseStr) {
+                if(responseStr.status===0){
+                    console.log("成功"+responseStr);
+                    update_user_photo(responseStr.data.file_path)
+                }else{
+                    console.log("失败");
+                }
+            },
+            error : function(responseStr) {
+                console.log("error");
+            }
+        });
+    }
+
+    //更新用户头像信息
+    function update_user_photo(file_path) {
+        var formData = new FormData();
+        formData.append('file_path', file_path);
+        formData.append('csrfmiddlewaretoken', $('#csrfmiddlewaretoken').val());
+        var url = '/blogs/update_user_photo'
+        $.ajax({
+            url : url,
+            type : 'POST',
+            data : formData,
+            processData : false,
+            contentType : false,
+            beforeSend:function(){
+            },
+            success : function(responseStr) {
+            },
+            error : function(responseStr) {
+                console.log("error");
+            }
+        });
+    }
+
+    //获取用户头像
+    function get_user_photo() {
+        var url = '/blogs/get_user_photo'
+        $.ajax({
+            url : url,
+            type : 'GET',
+            data : null,
+            beforeSend:function(){
+            },
+            success : function(data) {
+                if (data.status == 0) {
+                    if (data.data != null && data.data.photo_path != null && data.data.photo_path != '') {
+                        $('#user_photo').attr('src','/blogs/load_img?file_path=' + data.data.photo_path)
+                    } else {
+                        $('#user_photo').attr('src','/static/blogs/images/pic-1001.jpg')
+                    }
+                     $('#user_photo').show()
+                }
+            },
+            error : function(responseStr) {
+                console.log("error");
+            }
+        });
     }
 
 </script>
